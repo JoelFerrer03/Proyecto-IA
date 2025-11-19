@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Ver Estudiantes{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <h1>👥 Mis Estudiantes</h1>
+
+    {% if students_data %}
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Estudiante</th>
+                        <th>Email</th>
+                        <th>Promedio</th>
+                        <th>Actividades Completadas</th>
+                        <th>Rendimiento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for data in students_data %}
+                        <tr>
+                            <td>{{ data.student.username }}</td>
+                            <td>{{ data.student.email }}</td>
+                            <td><strong>{{ data.average }}%</strong></td>
+                            <td>{{ data.total_activities }}</td>
+                            <td><span class="badge badge-{{ data.performance }}">{{ data.performance|upper }}</span></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="no-data">Aún no hay estudiantes que hayan completado tus actividades.</p>
+    {% endif %}
+
+    <a href="{{ url_for('teacher_dashboard') }}" class="btn btn-secondary">← Volver al Dashboard</a>
+</div>
+{% endblock %}

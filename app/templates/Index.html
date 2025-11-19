@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero">
+    <h1>🎓 Bienvenido a la Plataforma Educativa Inteligente</h1>
+    <p class="subtitle">Aprende de manera personalizada con análisis en tiempo real</p>
+    
+    <div class="features">
+        <div class="feature-card">
+            <h3>📊 Análisis de Datos</h3>
+            <p>Seguimiento detallado de tu progreso académico</p>
+        </div>
+        <div class="feature-card">
+            <h3>🎯 Personalización</h3>
+            <p>Recomendaciones adaptadas a tu nivel</p>
+        </div>
+        <div class="feature-card">
+            <h3>👨‍🏫 Para Docentes</h3>
+            <p>Herramientas para gestionar y analizar estudiantes</p>
+        </div>
+    </div>
+
+    {% if not current_user.is_authenticated %}
+    <div class="cta-buttons">
+        <a href="{{ url_for('register') }}" class="btn btn-primary">Crear Cuenta</a>
+        <a href="{{ url_for('login') }}" class="btn btn-secondary">Iniciar Sesión</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

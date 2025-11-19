@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}Agregar Preguntas{% endblock %}
+
+{% block content %}
+<div class="form-page">
+    <h1>📝 Agregar Preguntas a: {{ activity.title }}</h1>
+    <p class="subtitle">Preguntas actuales: {{ activity.questions|length }}</p>
+    
+    <form method="POST" action="" class="form-container">
+        {{ form.hidden_tag() }}
+        
+        <div class="form-group">
+            {{ form.question_text.label }}
+            {{ form.question_text(class="form-control", rows=3, placeholder="Escribe la pregunta...") }}
+            {% if form.question_text.errors %}
+                <span class="error">{{ form.question_text.errors[0] }}</span>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.option_a.label }}
+            {{ form.option_a(class="form-control", placeholder="Primera opción") }}
+            {% if form.option_a.errors %}
+                <span class="error">{{ form.option_a.errors[0] }}</span>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.option_b.label }}
+            {{ form.option_b(class="form-control", placeholder="Segunda opción") }}
+            {% if form.option_b.errors %}
+                <span class="error">{{ form.option_b.errors[0] }}</span>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.option_c.label }}
+            {{ form.option_c(class="form-control", placeholder="Tercera opción") }}
+            {% if form.option_c.errors %}
+                <span class="error">{{ form.option_c.errors[0] }}</span>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.option_d.label }}
+            {{ form.option_d(class="form-control", placeholder="Cuarta opción") }}
+            {% if form.option_d.errors %}
+                <span class="error">{{ form.option_d.errors[0] }}</span>
+            {% endif %}
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                {{ form.correct_answer.label }}
+                <div class="radio-group">
+                    {% for subfield in form.correct_answer %}
+                        <label class="radio-option">
+                            {{ subfield }}
+                            {{ subfield.label.text }}
+                        </label>
+                    {% endfor %}
+                </div>
+                {% if form.correct_answer.errors %}
+                    <span class="error">{{ form.correct_answer.errors[0] }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.points.label }}
+                {{ form.points(class="form-control") }}
+                {% if form.points.errors %}
+                    <span class="error">{{ form.points.errors[0] }}</span>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" name="add_another" value="1" class="btn btn-primary">➕ Agregar y Continuar</button>
+            {{ form.submit(class="btn btn-success", value="Agregar y Finalizar") }}
+            <a href="{{ url_for('teacher_dashboard') }}" class="btn btn-secondary">Terminar</a>
+        </div>
+    </form>
+
+    {% if activity.questions %}
+    <div class="questions-preview">
+        <h3>Preguntas agregadas:</h3>
+        <ul>
+            {% for q in activity.questions %}
+                <li>{{ loop.index }}. {{ q.question_text|truncate(60) }} ({{ q.points }} pts)</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

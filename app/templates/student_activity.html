@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}{{ activity.title }}{% endblock %}
+
+{% block content %}
+<div class="activity-page">
+    <div class="activity-header-full">
+        <h1>{{ activity.title }}</h1>
+        <div class="activity-meta">
+            <span class="badge badge-{{ activity.difficulty }}">{{ activity.difficulty }}</span>
+            <span>📚 {{ activity.subject }}</span>
+            <span>📝 {{ activity.questions|length }} preguntas</span>
+        </div>
+        <p class="activity-description">{{ activity.description }}</p>
+    </div>
+
+    <form method="POST" action="" id="activityForm">
+        {% for question in activity.questions %}
+            <div class="question-card">
+                <h3>Pregunta {{ loop.index }} <span class="points">({{ question.points }} puntos)</span></h3>
+                <p class="question-text">{{ question.question_text }}</p>
+                
+                <div class="options-grid">
+                    <label class="option-label">
+                        <input type="radio" name="question_{{ question.id }}" value="a" required>
+                        <span class="option-text">A) {{ question.option_a }}</span>
+                    </label>
+                    <label class="option-label">
+                        <input type="radio" name="question_{{ question.id }}" value="b" required>
+                        <span class="option-text">B) {{ question.option_b }}</span>
+                    </label>
+                    <label class="option-label">
+                        <input type="radio" name="question_{{ question.id }}" value="c" required>
+                        <span class="option-text">C) {{ question.option_c }}</span>
+                    </label>
+                    <label class="option-label">
+                        <input type="radio" name="question_{{ question.id }}" value="d" required>
+                        <span class="option-text">D) {{ question.option_d }}</span>
+                    </label>
+                </div>
+            </div>
+        {% endfor %}
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">📤 Enviar Respuestas</button>
+            <a href="{{ url_for('student_dashboard') }}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    // Timer simple
+    let startTime = Date.now();
+    
+    document.getElementById('activityForm').addEventListener('submit', function() {
+        let timeSpent = Math.floor((Date.now() - startTime) / 1000);
+        console.log('Tiempo transcurrido:', timeSpent, 'segundos');
+    });
+</script>
+{% endblock %}

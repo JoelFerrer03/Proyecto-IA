@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard Estudiante{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <h1>📚 Mi Dashboard</h1>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3>📊 Promedio General</h3>
+            <p class="stat-number">{{ average }}%</p>
+            <span class="badge badge-{{ performance_level }}">{{ performance_level|upper }}</span>
+        </div>
+        <div class="stat-card">
+            <h3>✅ Actividades Completadas</h3>
+            <p class="stat-number">{{ total_completed }}</p>
+        </div>
+        <div class="stat-card">
+            <h3>🎯 Dificultad Recomendada</h3>
+            <p class="stat-number">{{ suggested_difficulty|upper }}</p>
+        </div>
+    </div>
+
+    <div class="recommendations-section">
+        <h2>💡 Recomendaciones Personalizadas</h2>
+        <ul class="recommendations-list">
+            {% for rec in recommendations %}
+                <li>{{ rec }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="activities-section">
+        <h2>📋 Actividades Disponibles</h2>
+        
+        {% if activities %}
+            <div class="activities-grid">
+                {% for activity in activities %}
+                    <div class="activity-card">
+                        <div class="activity-header">
+                            <h3>{{ activity.title }}</h3>
+                            <span class="badge badge-{{ activity.difficulty }}">{{ activity.difficulty }}</span>
+                        </div>
+                        <p class="activity-subject">📚 {{ activity.subject }}</p>
+                        <p class="activity-description">{{ activity.description|truncate(100) }}</p>
+                        <p class="activity-info">📝 {{ activity.questions|length }} preguntas</p>
+                        
+                        {% if activity.id in completed_ids %}
+                            <span class="completed-badge">✅ Completada</span>
+                            <a href="{{ url_for('student_activity', activity_id=activity.id) }}" class="btn btn-secondary btn-small">Reintentar</a>
+                        {% else %}
+                            <a href="{{ url_for('student_activity', activity_id=activity.id) }}" class="btn btn-primary btn-small">Comenzar</a>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="no-data">No hay actividades disponibles por el momento.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

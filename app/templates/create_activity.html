@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Crear Actividad{% endblock %}
+
+{% block content %}
+<div class="form-page">
+    <h1>➕ Crear Nueva Actividad</h1>
+    
+    <form method="POST" action="" class="form-container">
+        {{ form.hidden_tag() }}
+        
+        <div class="form-group">
+            {{ form.title.label }}
+            {{ form.title(class="form-control", placeholder="Ej: Evaluación de Matemáticas - Álgebra") }}
+            {% if form.title.errors %}
+                <span class="error">{{ form.title.errors[0] }}</span>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.description.label }}
+            {{ form.description(class="form-control", rows=4, placeholder="Describe la actividad y sus objetivos...") }}
+            {% if form.description.errors %}
+                <span class="error">{{ form.description.errors[0] }}</span>
+            {% endif %}
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                {{ form.subject.label }}
+                {{ form.subject(class="form-control", placeholder="Ej: Matemáticas, Historia...") }}
+                {% if form.subject.errors %}
+                    <span class="error">{{ form.subject.errors[0] }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.difficulty.label }}
+                {{ form.difficulty(class="form-control") }}
+                {% if form.difficulty.errors %}
+                    <span class="error">{{ form.difficulty.errors[0] }}</span>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="form-actions">
+            {{ form.submit(class="btn btn-primary") }}
+            <a href="{{ url_for('teacher_dashboard') }}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
